@@ -44,7 +44,7 @@ int String::size() const
 
 String String::reverse() const
 {
-    String res;
+    String res(size());
     reverse_cpy(res.buf, buf);
     return res;
 }
@@ -62,7 +62,7 @@ int String::indexOf(char c) const
 	return index;
 }
 
-int String::indexOf(const String &s) const
+int String::indexOf(String s) const
 {
 	const char *res = strstr(buf, s.buf);
 	if (res == nullptr)
@@ -78,7 +78,13 @@ void String::print(ostream &out) const
 
 void String::read(istream &in)
 {
-	in >> buf;
+    char word[1024];
+
+    if (in >> word)
+    {
+        String temp(word);
+        swap(temp); 
+    }
 }
 
 // operators
@@ -114,16 +120,11 @@ const char &String::operator[] (int index) const
 
 String &String::operator+=(const String &s)
 {
-	int rem = MAXLEN - 1 - strlen(buf);
-	
-	if (strlen(s.buf) > rem)
-	{
-		cerr << "ERROR: String Capacity Exceeded";
-	}
-	
-	String temp(s);
-	strncat(buf, temp.buf, rem);
-	return *this;
+	String res(size()+s.size());
+    strcpy(res.buf, buf);
+    strcat(res.buf, s.buf);
+    swap(res);
+    return *this;
 }
 
 bool String::operator==(const String &s) const
@@ -158,9 +159,11 @@ bool String::operator>=(const String &s) const
 
 String String::operator+(const String &s) const
 {
-	String res(buf);
-	res += s;
-	return res;
+	String res(size()+s.size());
+
+    strcpy(res.buf,buf);
+    strcat(res.buf,s.buf);
+    return res; 
 }
 
 // static helper methods
