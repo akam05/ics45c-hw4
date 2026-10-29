@@ -24,6 +24,84 @@ void String::swap(String &s)
 	swap(buf, s.buf);
 }
 
+// operators
+String &String::operator=(const String &s)
+{
+	strcpy(buf, s.buf);
+	return *this;
+}
+
+char &String::operator[] (int index)
+{
+	if (!(in_bounds(index)))
+	{
+		cerr << "ERROR: Index Out of Bounds";
+		return buf[0];
+	}
+	return buf[index];
+}
+
+const char String::&operator[] (int index) const 
+{
+    if (!(in_bounds(index)))
+	{
+		cerr << "ERROR: Index Out of Bounds";
+		return buf[0];
+	}
+	return buf[index];
+}
+
+String &String::operator+=(const String &s)
+{
+	int rem = MAXLEN - 1 - strlen(buf);
+	
+	if (strlen(s.buf) > rem)
+	{
+		cerr << "ERROR: String Capacity Exceeded";
+	}
+	
+	String temp(s);
+	strncat(buf, temp.buf, rem);
+	return *this;
+}
+
+bool String::operator==(const String &s) const
+{
+	return strcmp(buf, s.buf) == 0;
+}
+
+bool String::operator!=(const String &s) const
+{
+	return strcmp(buf, s.buf) != 0;
+}
+
+bool String::operator>(const String &s) const
+{
+	return strcmp(buf, s.buf) > 0;
+}
+
+bool String::operator<(const String &s) const
+{
+	return strcmp(buf, s.buf) < 0;
+}
+
+bool String::operator<=(const String &s) const
+{
+	return strcmp(buf, s.buf) <= 0;
+}
+
+bool String::operator>=(const String &s) const
+{
+	return strcmp(buf, s.buf) >= 0;
+}
+
+String String::operator+(const String &s) const
+{
+	String res(buf);
+	res += s;
+	return res;
+}
+
 // static helper methods
 int String::strlen(const char *s)
 {
@@ -40,6 +118,11 @@ char *String::strcpy(char *dest, const char *src)
         dest[i] = src[i];
     dest[i] = '\0';
     return dest;
+}
+
+char *String::strdup(const char *src)
+{
+    
 }
 
 char *String::strncpy(char *dest, const char *src, int n)
@@ -166,4 +249,16 @@ const char *String::strstr(const char *haystack, const char *needle)
 		}
 	}
 	return nullptr;
+}
+
+ostream &operator<<(ostream &out, const String &s)
+{
+	s.print(out);
+	return out;
+}
+
+istream &operator>>(istream &in, String &s)
+{
+	s.read(in);
+	return in;
 }
