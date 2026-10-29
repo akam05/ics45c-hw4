@@ -1,17 +1,29 @@
 #include "string.hpp"
 #include <iostream>
+#include <utility>
 using namespace std;
 
-String::String(const char *s)
+String::String(const char *s) : buf(strdup(s))
 {
 }
 
-String::String(const String &s)
+String::String(const String &s) : buf(strdup(s.buf))
 {
 }
 
-String::String(int length) : buf(new char[length + 1]
+String::String(int length) : buf(new char[length + 1])
 {
+}
+
+String::String(String &&s) : buf(s.buf)
+{
+    s.buf = nullptr;
+}
+
+String &String::operator=(String &&s)
+{
+    swap(s);
+    return *this;
 }
 
 String::~String()
@@ -19,15 +31,64 @@ String::~String()
 	delete[] buf;
 }
 
+// functions
 void String::swap(String &s)
 {
-	swap(buf, s.buf);
+	std::swap(buf, s.buf);
+}
+
+int String::size() const
+{
+    return strlen(buf);
+}
+
+String String::reverse() const
+{
+    String res;
+    reverse_cpy(res.buf, buf);
+    return res;
+}
+
+int String::indexOf(char c) const
+{
+	const char *res = strchr(buf, c);
+
+	if (res == nullptr)
+	{
+		return -1;
+	}
+
+	int index = res - buf;
+	return index;
+}
+
+int String::indexOf(const String &s) const
+{
+	const char *res = strstr(buf, s.buf);
+	if (res == nullptr)
+		return -1;
+	int index = res - buf;
+	return index;
+}
+
+void String::print(ostream &out) const
+{
+    out buf;
+}
+
+void String::read(istream &in)
+{
+	in >> buf;
 }
 
 // operators
 String &String::operator=(const String &s)
 {
-	strcpy(buf, s.buf);
+	if (this != &s)
+    {
+        String temp(s);
+        swap(temp);
+    }
 	return *this;
 }
 
@@ -122,7 +183,9 @@ char *String::strcpy(char *dest, const char *src)
 
 char *String::strdup(const char *src)
 {
-    
+    char *copy = new char[strlen(src) + 1];
+    strcpy(copy, src); 
+    return copy; 
 }
 
 char *String::strncpy(char *dest, const char *src, int n)
