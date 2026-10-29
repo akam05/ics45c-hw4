@@ -73,7 +73,7 @@ int String::indexOf(const String &s) const
 
 void String::print(ostream &out) const
 {
-    out buf;
+    out << buf;
 }
 
 void String::read(istream &in)
