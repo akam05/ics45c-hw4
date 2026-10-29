@@ -88,7 +88,7 @@ void String::read(istream &in)
 }
 
 // operators
-String &String::operator=(const String &s)
+String &String::operator=(String s)
 {
 	if (this != &s)
     {
@@ -118,7 +118,7 @@ const char &String::operator[] (int index) const
 	return buf[index];
 }
 
-String &String::operator+=(const String &s)
+String &String::operator+=(String s)
 {
 	String res(size()+s.size());
     strcpy(res.buf, buf);
@@ -127,37 +127,37 @@ String &String::operator+=(const String &s)
     return *this;
 }
 
-bool String::operator==(const String &s) const
+bool String::operator==(String s) const
 {
 	return strcmp(buf, s.buf) == 0;
 }
 
-bool String::operator!=(const String &s) const
+bool String::operator!=(String s) const
 {
 	return strcmp(buf, s.buf) != 0;
 }
 
-bool String::operator>(const String &s) const
+bool String::operator>(String s) const
 {
 	return strcmp(buf, s.buf) > 0;
 }
 
-bool String::operator<(const String &s) const
+bool String::operator<(String s) const
 {
 	return strcmp(buf, s.buf) < 0;
 }
 
-bool String::operator<=(const String &s) const
+bool String::operator<=(String s) const
 {
 	return strcmp(buf, s.buf) <= 0;
 }
 
-bool String::operator>=(const String &s) const
+bool String::operator>=(String s) const
 {
 	return strcmp(buf, s.buf) >= 0;
 }
 
-String String::operator+(const String &s) const
+String String::operator+(String s) const
 {
 	String res(size()+s.size());
 
