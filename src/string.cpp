@@ -10,7 +10,7 @@ String::String(const String &s)
 {
 }
 
-String::String(int length)
+String::String(int length) : buf(new char[length + 1]
 {
 }
 
