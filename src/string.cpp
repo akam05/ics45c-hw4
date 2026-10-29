@@ -41,7 +41,7 @@ char &String::operator[] (int index)
 	return buf[index];
 }
 
-const char String::&operator[] (int index) const 
+const char &String::operator[] (int index) const 
 {
     if (!(in_bounds(index)))
 	{
