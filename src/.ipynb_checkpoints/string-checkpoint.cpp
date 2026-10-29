@@ -88,7 +88,7 @@ void String::read(istream &in)
 }
 
 // operators
-String &String::operator=(String s)
+String &String::operator=(const String &s)
 {
 	if (this != &s)
     {
