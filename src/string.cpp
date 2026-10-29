@@ -102,7 +102,7 @@ char &String::operator[] (int index)
 {
 	if (!(in_bounds(index)))
 	{
-		cerr << "ERROR: Index Out of Bounds";
+		cout << "ERROR: Index Out of Bounds";
 		return buf[0];
 	}
 	return buf[index];
@@ -112,7 +112,7 @@ const char &String::operator[] (int index) const
 {
     if (!(in_bounds(index)))
 	{
-		cerr << "ERROR: Index Out of Bounds";
+		cout << "ERROR: Index Out of Bounds";
 		return buf[0];
 	}
 	return buf[index];
